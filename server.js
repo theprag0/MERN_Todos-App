@@ -1,13 +1,15 @@
 const express = require('express'),
     app = express(),
     path = require('path'),
+    cors = require('cors'),
     mongoose = require('mongoose'),
     dbUrl = process.env.DB_URL || require('./config/keys').mongoURI;
 
 const todoRoutes = require('./routes/api/todos');
 
-app.use(express.urlencoded({extended: true}));
+//app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors());
 
 // Connect Mongo
 mongoose.connect(dbUrl, {
@@ -26,7 +28,7 @@ if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-    app.get('*', (req, res) => {
+    app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
     });
 }
