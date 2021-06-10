@@ -39,7 +39,6 @@ class RegisterForm extends Component{
                 window.localStorage.setItem('token', res.data.token);
             })
             .catch(err => {
-                console.log(err.response);
                 this.setState({msg: err.response.data.msg});
                 const authState = {
                     msg: err.response.data.msg,

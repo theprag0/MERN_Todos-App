@@ -17,18 +17,17 @@ router.post('/', async(req, res) => {
 
         const foundUser = await User.findOne({email});
         if(!foundUser) return res.status(400).json({msg: 'User does not exist'});
-
         bcrypt.compare(password, foundUser.password)
             .then(isMatch => {
                 if(!isMatch) return res.status(400).json({msg: 'Invalid Credentials!'});
 
-                jwt.sign({id: foundUser.id}, process.env.JWT_SECRET, {expiresIn: 3600}, (err, token) => {
+                jwt.sign({id: foundUser._id}, process.env.JWT_SECRET, {expiresIn: 3600}, (err, token) => {
                     if(err) throw err;
                     res.json({
                         token,
                         user: {
                             email: foundUser.email,
-                            id: foundUser.id,
+                            id: foundUser._id,
                             name: foundUser.name
                         }
                     })
@@ -44,8 +43,12 @@ router.post('/', async(req, res) => {
 // @access Private
 router.get('/user', auth, async (req, res) => {
     try{
-        const foundUser = await User.findById(req.body.id).select('-password');
-        if(foundUser) return res.json(foundUser);
+        const foundUser = await User.findById(req.user.id).select('-password');
+        if(foundUser) return res.json({
+            name: foundUser.name,
+            email: foundUser.email,
+            id: foundUser._id
+        });
     } catch(err) {
         console.log(err);
     }
