@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    User = require('./User');
 
 const todoSchema = new Schema(
     {
@@ -11,10 +12,16 @@ const todoSchema = new Schema(
             type: Boolean,
             default: false
         },
+        author: {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        },
         createdAt: {
             type: Date,
             default: Date.now
-        }
+        },
     }
 );
 

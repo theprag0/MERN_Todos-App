@@ -1,13 +1,15 @@
 const express = require('express'),
     router = express.Router(),
-    Todo = require('../../models/Todo');
+    auth = require('../../middleware/auth'),
+    Todo = require('../../models/Todo'),
+    User = require('../../models/User');
 
 // @route GET /api/todos
 // @desc Display all todos
 // @access public
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try{
-        const foundTodos = await Todo.find().sort({date: -1});
+        const foundTodos = await Todo.find({'author.id': req.params.id}).sort({date: -1});
         res.json(foundTodos);
     } catch(err) {
         console.log(err);
@@ -16,11 +18,13 @@ router.get('/', async (req, res) => {
 
 // @route POST /api/todos
 // @desc Create new Todo
-// @access public
-router.post('/', async (req, res) => {
+// @access Private
+router.post('/', auth, async (req, res) => {
     try{
+        console.log(req.body.author);
         const newTodo = new Todo({
-            todo: req.body.todo
+            todo: req.body.todo,
+            author: req.body.author
         });
         const saveTodo = await newTodo.save();
         res.json(saveTodo);
@@ -31,8 +35,8 @@ router.post('/', async (req, res) => {
 
 // @route PUT /api/todos/:id
 // @desc Edit a Todo
-// @access public
-router.put('/:id', async (req, res) => {
+// @access Private
+router.put('/:id', auth, async (req, res) => {
     try{
         const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {new: true});
         res.json({success: true, payload: updatedTodo});
@@ -44,8 +48,8 @@ router.put('/:id', async (req, res) => {
 
 // @route DELETE /api/todos/:id
 // @desc Delete a Todo
-// @access public
-router.delete('/:id', async (req, res) => {
+// @access Private
+router.delete('/:id', auth, async (req, res) => {
     try{
         const foundItem = await Todo.findById(req.params.id);
         const deletedItem = await foundItem.remove();

@@ -1,11 +1,15 @@
+require('dotenv').config()
+
 const express = require('express'),
     app = express(),
     path = require('path'),
     cors = require('cors'),
     mongoose = require('mongoose'),
-    dbUrl = process.env.DB_URL || require('./config/keys').mongoURI;
+    dbUrl = process.env.DB_URL 
 
-const todoRoutes = require('./routes/api/todos');
+const todoRoutes = require('./routes/api/todos'),
+    userRoutes = require('./routes/api/user'),
+    authRoutes = require('./routes/api/auth');
 
 //app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -22,6 +26,8 @@ mongoose.connect(dbUrl, {
 
 // Use Routes
 app.use('/api/todos', todoRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
