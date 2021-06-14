@@ -27,6 +27,7 @@ class NewTodoForm extends Component{
                         name="todo" 
                         onChange={this.handleChange} 
                         value={this.state.todo}
+                        autoComplete="off"
                     />
                     <button type="submit">ADD TODO</button>
                </form>

@@ -75,6 +75,7 @@ class LoginForm extends Component{
                         name="email"
                         placeholder="Enter your email"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <label htmlFor="password">Password</label>
                     <input 
@@ -83,6 +84,7 @@ class LoginForm extends Component{
                         name="password"
                         placeholder="Enter a password"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <p>
                         <em>Not registered yet?</em> 

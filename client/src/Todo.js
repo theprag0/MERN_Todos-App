@@ -45,6 +45,7 @@ class Todo extends Component{
                         value={this.state.todo}
                         placeholder="Update Todo"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <button type="submit">Save</button>
                 </form>

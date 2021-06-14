@@ -75,6 +75,7 @@ class RegisterForm extends Component{
                         name="name"
                         placeholder="Enter your name"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <label htmlFor="email">Email</label>
                     <input 
@@ -83,6 +84,7 @@ class RegisterForm extends Component{
                         name="email"
                         placeholder="Enter your email"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <label htmlFor="password">Password</label>
                     <input 
@@ -91,6 +93,7 @@ class RegisterForm extends Component{
                         name="password"
                         placeholder="Enter a password"
                         onChange={this.handleChange}
+                        autoComplete="off"
                     />
                     <p>
                         <em>Already have an account?</em> 
